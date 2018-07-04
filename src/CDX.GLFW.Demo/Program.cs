@@ -13,7 +13,7 @@ namespace CDX.GLFWBackend.Demo
             var config = new ApplicationConfiguration();
             config.setInitialBackgroundColor(Color.BLACK);
 
-            var app = new Application(new TestMesh(), config);
+            var app = new Application(new Sandbox(), config);
         }
     }
 
@@ -36,7 +36,7 @@ namespace CDX.GLFWBackend.Demo
 
             batch = new SpriteBatch(6000);
 
-            texture = Texture.loadFromFile("guard1_face.png");
+            texture = Texture.loadFromFile("badlogic.jpg");
 
             shader = createDefaultShader();
 
@@ -70,17 +70,11 @@ namespace CDX.GLFWBackend.Demo
             
             
             //batch.setProjectionMatrix(camera.combined);
-            //batch.begin();
-            //batch.draw(texture, 0, 0);
-            //batch.draw(texture, 0, 150);
-            //batch.draw(texture, 0, 300);
-            //batch.end();
+            batch.begin();
+            batch.draw(texture, 0, 0);
+            batch.end();
             
             
-            shader.begin();
-            shader.setUniformMatrix("u_projTrans", camera.projection);
-            mesh.render(shader, PrimitiveType.Triangles, 0, 6);
-            shader.end();
         }
 
         public void pause()
