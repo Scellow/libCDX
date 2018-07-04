@@ -2,4 +2,12 @@
 libGDX port to C# using .NET Core
 
 
-![image](wiki/screenshot.png)
+# What's missing
+
+- Audio
+- Net
+- 3D
+- Scene2D
+
+
+![image](https://raw.githubusercontent.com/Scellow/libCDX/master/wiki/screenshot_0.png)
