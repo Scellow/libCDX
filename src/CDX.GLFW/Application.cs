@@ -27,16 +27,16 @@ namespace CDX.GLFWBackend
         private readonly List<ILifecycleListener>         lifecycleListeners = new List<ILifecycleListener>();
 
         private static GLVersion glVersion;
-        //private static   Callback                         glDebugCallback;
 
+        private static GLFW.GLFW.ErrorFunc _errorFunc;
+        
         internal static void initializeGlfw()
         {
+            _errorFunc = onGlfwError;
+            GLFW.GLFW.SetErrorCallback(_errorFunc);
+            if (!GLFW.GLFW.Init())
             {
-                GLFW.GLFW.SetErrorCallback(onGlfwError);
-                if (!GLFW.GLFW.Init())
-                {
-                    throw new Exception("Unable to initialize GLFW");
-                }
+                throw new Exception("Unable to initialize GLFW");
             }
         }
 

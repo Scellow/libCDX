@@ -17,6 +17,13 @@ namespace CDX.GLFWBackend
         private          bool                           iconified        = false;
         internal         bool                           requestRendering = false;
 
+
+        private GLFW.GLFW.WindowFocusFunc _focusFunc;
+        private GLFW.GLFW.WindowIconifyFunc _iconifyFunc;
+        private GLFW.GLFW.WindowCloseFunc _closeFunc;
+        private GLFW.GLFW.DropFunc _dropFunc;
+        private GLFW.GLFW.WindowRefreshFunc _refreshFunc;
+
         internal Window(IApplicationListener listener, ApplicationConfiguration config)
         {
             this.listener       = listener;
@@ -30,14 +37,23 @@ namespace CDX.GLFWBackend
             input        = new Input(this);
             graphics     = new Graphics(this);
 
-            GLFW.GLFW.SetWindowFocusCallback(windowHandle, focusCallback);
-            GLFW.GLFW.SetWindowIconifyCallback(windowHandle, iconifyCallback);
+            
+            // that's to aboid callbacks from getting garbage collected
+            _focusFunc   = focusCallback;
+            _iconifyFunc = iconifyCallback;
+            _closeFunc   = closeCallback;
+            _dropFunc    = dropCallback;
+            _refreshFunc = refreshCallback;
+            
+
+            GLFW.GLFW.SetWindowFocusCallback(windowHandle, _focusFunc);
+            GLFW.GLFW.SetWindowIconifyCallback(windowHandle, _iconifyFunc);
             // todo: missing binding
             //GLFW.GLFW.SetWindowMaximizeCallback(windowHandle, maximizeCallback);
-            GLFW.GLFW.SetWindowCloseCallback(windowHandle, closeCallback);
-            GLFW.GLFW.SetDropCallback(windowHandle, dropCallback);
-            GLFW.GLFW.SetWindowRefreshCallback(windowHandle, refreshCallback);
-
+            GLFW.GLFW.SetWindowCloseCallback(windowHandle, _closeFunc);
+            GLFW.GLFW.SetDropCallback(windowHandle, _dropFunc);
+            GLFW.GLFW.SetWindowRefreshCallback(windowHandle, _refreshFunc);
+            
             if (windowListener != null)
             {
                 windowListener.created(this);

@@ -17,6 +17,11 @@ namespace CDX.GLFWBackend
         private bool[] justPressedKeys = new bool[256];
         private char   lastCharacter;
 
+        private GLFW.GLFW.KeyFunc _keyFunc;
+        private GLFW.GLFW.CharFunc _charFunc;
+        private GLFW.GLFW.ScrollFunc _scrollFunc;
+        private GLFW.GLFW.CursorPosFunc _cursorPosFunc;
+        private GLFW.GLFW.MouseButtonFunc _mouseButtonFunc;
 
         public Input(Window window)
         {
@@ -40,11 +45,19 @@ namespace CDX.GLFWBackend
         public void windowHandleChanged(global::GLFW.GLFW.Window windowHandle)
         {
             resetPollingStates();
-            GLFW.GLFW.SetKeyCallback(window.getWindowHandle(), keyCallback);
-            GLFW.GLFW.SetCharCallback(window.getWindowHandle(), charCallback);
-            GLFW.GLFW.SetScrollCallback(window.getWindowHandle(), scrollCallback);
-            GLFW.GLFW.SetCursorPosCallback(window.getWindowHandle(), cursorPosCallback);
-            GLFW.GLFW.SetMouseButtonCallback(window.getWindowHandle(), mouseButtonCallback);
+
+            _keyFunc         = keyCallback;
+            _charFunc        = charCallback;
+            _scrollFunc      = scrollCallback;
+            _cursorPosFunc   = cursorPosCallback;
+            _mouseButtonFunc = mouseButtonCallback;
+
+
+            GLFW.GLFW.SetKeyCallback(window.getWindowHandle(), _keyFunc);
+            GLFW.GLFW.SetCharCallback(window.getWindowHandle(), _charFunc);
+            GLFW.GLFW.SetScrollCallback(window.getWindowHandle(), _scrollFunc);
+            GLFW.GLFW.SetCursorPosCallback(window.getWindowHandle(), _cursorPosFunc);
+            GLFW.GLFW.SetMouseButtonCallback(window.getWindowHandle(), _mouseButtonFunc);
         }
 
         private void keyCallback(global::GLFW.GLFW.Window window1, global::GLFW.GLFW.KeyCode key, int scancode, global::GLFW.GLFW.InputState state, global::GLFW.GLFW.KeyMods mods)

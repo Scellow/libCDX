@@ -56,13 +56,17 @@ namespace CDX.GLFWBackend
         private          int          windowPosYBeforeFullscreen;
         private          CDX.DisplayMode  displayModeBeforeFullscreen = null;
 
+        private GLFW.GLFW.FramebufferSizeFunc _refizeFunc;
+
         public Graphics(Window window)
         {
             this.window = window;
 
             updateFramebufferInfo();
             initiateGL();
-            GLFW.GLFW.SetFramebufferSizeCallback(window.getWindowHandle(), resizeCallback);
+
+            _refizeFunc = resizeCallback;
+            GLFW.GLFW.SetFramebufferSizeCallback(window.getWindowHandle(), _refizeFunc);
         }
 
         private void resizeCallback(global::GLFW.GLFW.Window window1, int width, int height)
