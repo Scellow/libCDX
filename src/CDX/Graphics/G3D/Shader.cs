@@ -1,6 +1,8 @@
-namespace CDX.Graphics
+using System;
+
+namespace CDX.Graphics.G3D
 {
-    public interface Shader
+    public interface Shader : IDisposable
     {
         void init();
 

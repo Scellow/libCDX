@@ -443,5 +443,16 @@ namespace CDX.Utils
             double diff = Math.Abs(a - b);
             return diff <= tolerance;
         }
+
+        public static readonly float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits
+
+        public static bool isEqual(float a, float b)
+        {
+            return Math.Abs(a - b) <= FLOAT_ROUNDING_ERROR;
+        }
+        
+        public static bool isZero (float value) {
+            return Math.Abs(value) <= FLOAT_ROUNDING_ERROR;
+        }
     }
 }

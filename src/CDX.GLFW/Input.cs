@@ -1,5 +1,11 @@
 ﻿using System;
 
+using GLFWWindow = GLFW.GLFW.Window;
+using GLFWKeyCode = GLFW.GLFW.KeyCode;
+using GLFWMouseButton = GLFW.GLFW.MouseButton;
+using GLFWInputState = GLFW.GLFW.InputState;
+using GLFWKeyMods = GLFW.GLFW.KeyMods;
+
 namespace CDX.GLFWBackend
 {
     internal class Input : IInput, IDisposable
@@ -42,7 +48,7 @@ namespace CDX.GLFWBackend
             eventQueue.drain();
         }
 
-        public void windowHandleChanged(global::GLFW.GLFW.Window windowHandle)
+        public void windowHandleChanged(GLFWWindow windowHandle)
         {
             resetPollingStates();
 
@@ -60,7 +66,7 @@ namespace CDX.GLFWBackend
             GLFW.GLFW.SetMouseButtonCallback(window.getWindowHandle(), _mouseButtonFunc);
         }
 
-        private void keyCallback(global::GLFW.GLFW.Window window1, global::GLFW.GLFW.KeyCode key, int scancode, global::GLFW.GLFW.InputState state, global::GLFW.GLFW.KeyMods mods)
+        private void keyCallback(GLFWWindow window1, GLFWKeyCode key, int scancode, GLFWInputState state, GLFWKeyMods mods)
         {
             switch (state)
             {
@@ -88,7 +94,7 @@ namespace CDX.GLFWBackend
             }
         }
 
-        private void charCallback(global::GLFW.GLFW.Window window1, uint codepoint)
+        private void charCallback(GLFWWindow window1, uint codepoint)
         {
             if ((codepoint & 0xff00) == 0xf700) return;
             lastCharacter = (char) codepoint;
@@ -96,7 +102,7 @@ namespace CDX.GLFWBackend
             eventQueue.keyTyped((char) codepoint);
         }
 
-        private void scrollCallback(global::GLFW.GLFW.Window window1, double xpos, double ypos)
+        private void scrollCallback(GLFWWindow window1, double xpos, double ypos)
         {
             window.getGraphics().requestRendering();
             eventQueue.scrolled((int) -Math.Sign(ypos));
@@ -105,7 +111,7 @@ namespace CDX.GLFWBackend
         private int logicalMouseY;
         private int logicalMouseX;
 
-        private void cursorPosCallback(global::GLFW.GLFW.Window window1, double xpos, double ypos)
+        private void cursorPosCallback(GLFWWindow window1, double xpos, double ypos)
         {
             deltaX = (int) xpos - logicalMouseX;
             deltaY = (int) ypos - logicalMouseY;
@@ -133,7 +139,7 @@ namespace CDX.GLFWBackend
             }
         }
 
-        private void mouseButtonCallback(global::GLFW.GLFW.Window window1, global::GLFW.GLFW.MouseButton button, global::GLFW.GLFW.InputState state, global::GLFW.GLFW.KeyMods mods)
+        private void mouseButtonCallback(GLFWWindow window1, GLFWMouseButton button, GLFWInputState state, GLFWKeyMods mods)
         {
             var gdxButton = toGdxButton(button);
             if (gdxButton == Buttons.UKNOWN) return;
@@ -248,7 +254,7 @@ namespace CDX.GLFWBackend
 
         public bool isButtonPressed(Buttons button)
         {
-            return GLFW.GLFW.GetMouseButton(window.getWindowHandle(), (global::GLFW.GLFW.MouseButton) button);
+            return GLFW.GLFW.GetMouseButton(window.getWindowHandle(), (GLFWMouseButton) button);
         }
 
         public bool isKeyPressed(Keys key)
@@ -341,7 +347,7 @@ namespace CDX.GLFWBackend
             return (char) 0;
         }
 
-        public static Keys getGdxKeyCode(global::GLFW.GLFW.KeyCode lwjglKeyCode)
+        public static Keys getGdxKeyCode(GLFWKeyCode lwjglKeyCode)
         {
             switch (lwjglKeyCode)
             {
@@ -770,7 +776,7 @@ namespace CDX.GLFWBackend
             }
         }
 
-        private static Buttons toGdxButton(global::GLFW.GLFW.MouseButton button)
+        private static Buttons toGdxButton(GLFWMouseButton button)
         {
             if (button == GLFW.GLFW.MouseButton.ButtonLeft) return Buttons.LEFT;
             if (button == GLFW.GLFW.MouseButton.ButtonRight) return Buttons.RIGHT;

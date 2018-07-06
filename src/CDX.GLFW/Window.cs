@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using GLFWWindow = GLFW.GLFW.Window;
+using GLFWImage = GLFW.GLFW.Image;
+
 namespace CDX.GLFWBackend
 {
     public class Window : IDisposable
     {
-        private          global::GLFW.GLFW.Window               windowHandle;
+        private          GLFWWindow               windowHandle;
         private readonly IApplicationListener           listener;
         private          bool                           listenerInitialized = false;
         private          IWindowListener           windowListener;
@@ -31,7 +34,7 @@ namespace CDX.GLFWBackend
             this.config         = config;
         }
 
-        internal void create(global::GLFW.GLFW.Window windowHandle)
+        internal void create(GLFWWindow windowHandle)
         {
             this.windowHandle = windowHandle;
             input        = new Input(this);
@@ -60,17 +63,17 @@ namespace CDX.GLFWBackend
             }
         }
 
-        private void refreshCallback(global::GLFW.GLFW.Window window)
+        private void refreshCallback(GLFWWindow window)
         {
             postRunnable((() => { windowListener?.refreshRequested(); }));
         }
 
-        private void dropCallback(global::GLFW.GLFW.Window window, int count, string[] paths)
+        private void dropCallback(GLFWWindow window, int count, string[] paths)
         {
             postRunnable((() => { windowListener?.filesDropped(paths); }));
         }
 
-        private void closeCallback(global::GLFW.GLFW.Window window)
+        private void closeCallback(GLFWWindow window)
         {
             postRunnable((() =>
             {
@@ -82,7 +85,7 @@ namespace CDX.GLFWBackend
             }));
         }
 
-        private void iconifyCallback(global::GLFW.GLFW.Window window, bool focused)
+        private void iconifyCallback(GLFWWindow window, bool focused)
         {
             postRunnable((() =>
             {
@@ -93,7 +96,7 @@ namespace CDX.GLFWBackend
             }));
         }
 
-        private void focusCallback(global::GLFW.GLFW.Window window, bool focused)
+        private void focusCallback(GLFWWindow window, bool focused)
         {
             postRunnable((() =>
             {
@@ -188,7 +191,7 @@ namespace CDX.GLFWBackend
             GLFW.GLFW.MaximizeWindow(windowHandle);
         }
 
-        internal static void setIcon(global::GLFW.GLFW.Window windowHandle, global::GLFW.GLFW.Image image)
+        internal static void setIcon(GLFWWindow windowHandle, GLFWImage image)
         {
             //if (SharedLibraryLoader.isMac)
             //    return;
@@ -206,7 +209,7 @@ namespace CDX.GLFWBackend
             setSizeLimits(windowHandle, minWidth, minHeight, maxWidth, maxHeight);
         }
 
-        internal static void setSizeLimits(global::GLFW.GLFW.Window windowHandle, int minWidth, int minHeight, int maxWidth, int maxHeight)
+        internal static void setSizeLimits(GLFWWindow windowHandle, int minWidth, int minHeight, int maxWidth, int maxHeight)
         {
             GLFW.GLFW.SetWindowSizeLimits(windowHandle,
                 minWidth > -1 ? minWidth : GLFW.GLFW.DontCare,
@@ -225,12 +228,12 @@ namespace CDX.GLFWBackend
             return input;
         }
 
-        public global::GLFW.GLFW.Window getWindowHandle()
+        public GLFWWindow getWindowHandle()
         {
             return windowHandle;
         }
 
-        void windowHandleChanged(global::GLFW.GLFW.Window windowHandle)
+        void windowHandleChanged(GLFWWindow windowHandle)
         {
             this.windowHandle = windowHandle;
             input.windowHandleChanged(windowHandle);

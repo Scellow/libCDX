@@ -24,6 +24,10 @@ namespace CDX.Graphics
             bufferHandle = GL.GenBuffer();
         }
         
+        public int getNumMaxVertices ()
+        {
+            return indicies.Length;
+        }
         
         public void setIndices (uint[] indices) {
             isDirty = true;
@@ -71,6 +75,11 @@ namespace CDX.Graphics
         }
 
         public uint[] getIndices()
+        {
+            return indicies;
+        }
+
+        public uint[] getBuffer()
         {
             return indicies;
         }

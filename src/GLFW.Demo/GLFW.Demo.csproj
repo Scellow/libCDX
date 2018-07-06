@@ -3,7 +3,7 @@
     <ProjectReference Include="..\GLFW\GLFW.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="3.0.0" />
+    <PackageReference Include="OpenTK" Version="3.0.1" />
   </ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>

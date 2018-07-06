@@ -23,7 +23,7 @@ namespace CDX.Graphics
         internal int width;
         internal int height;
 
-        public static Texture loadFromFile(string path)
+        public static Texture loadFromFile(string path, bool useMipMaps = false)
         {
 #if USE_STB
             var buffer = File.ReadAllBytes(path);
@@ -118,6 +118,13 @@ namespace CDX.Graphics
         protected override void reload()
         {
             throw new NotImplementedException();
+        }
+
+
+        public override void Dispose()
+        {
+            if (glHandle == 0) return;
+            delete();
         }
     }
 }

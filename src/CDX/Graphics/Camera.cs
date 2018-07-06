@@ -65,6 +65,19 @@ namespace CDX.Graphics
             up = Vector3.Cross(direction, up);
             up.Normalize();
         }
+
+
+        // todo: test this
+        public Vector3 unproject(Vector3 screenCoords, float viewportX, float viewportY, float viewportWidth, float viewportHeight)
+        {
+            return Vector3.Unproject(screenCoords, viewportX, viewportY, viewportWidth, viewportHeight, near, far, invProjectionView);
+        }
+        
+        // todo: test this
+        public Vector3 project(Vector3 screenCoords, float viewportX, float viewportY, float viewportWidth, float viewportHeight)
+        {
+            return Vector3.Project(screenCoords, viewportX, viewportY, viewportWidth, viewportHeight, near, far, invProjectionView);
+        }
     }
 
     public class OrthographicCamera : Camera

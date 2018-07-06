@@ -1218,7 +1218,8 @@ namespace GLFW
         /// <param name="key">The key to query, or <see cref="KeyCode.Unknown"/>.</param>
         /// <param name="scancode">The scancode of the key to query.</param>
         /// <returns>The localized name of the key, or <c>null</c>.</returns>
-        public static unsafe string GetKeyName(KeyCode key, int scancode) => Marshal.PtrToStringAnsi(glfwGetKeyName(Convert.ToInt32(key), scancode));
+        /// todo: not working with corert, System.MissingMethodException: Method not found: 'System.String System.Runtime.InteropServices.Marshal.PtrToStringAnsi(IntPtr)'.
+        //public static unsafe string GetKeyName(KeyCode key, int scancode) => Marshal.PtrToStringAnsi(glfwGetKeyName(Convert.ToInt32(key), scancode));
 
         [DllImport(kLibrary, CallingConvention = CallingConvention.Cdecl)]
         static extern IntPtr glfwGetKeyName(int key, int scancode);

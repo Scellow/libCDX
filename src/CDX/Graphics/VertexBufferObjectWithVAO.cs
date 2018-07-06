@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using CDX.Utils;
 using OpenTK.Graphics.OpenGL4;
 
 namespace CDX.Graphics
@@ -7,7 +9,6 @@ namespace CDX.Graphics
     public class VertexBufferObjectWithVAO
     {
         private readonly VertexAttributes attributes;
-
         private int bufferHandle;
         private bool isStatic;
         private BufferUsageHint usage;
@@ -35,6 +36,11 @@ namespace CDX.Graphics
             return attributes;
         }
         
+        public int getNumMaxVertices () 
+        {
+            return vertices.Length / attributes.vertexSize;
+        }
+        
         private void bufferChanged () {
             if (isBound) {
                 GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Length * sizeof(float)), vertices, usage);
@@ -47,7 +53,6 @@ namespace CDX.Graphics
             this.vertices = vertices;
             bufferChanged();
         }
-        
         
         public void setVertices (float[] vertices, int offset, int count) {
             isDirty = true;
@@ -74,7 +79,6 @@ namespace CDX.Graphics
             
             bufferChanged();
         }
-        
         
         public void bind (ShaderProgram shader, int[] locations = null) {
             GL.BindVertexArray(vaoHandle);
@@ -130,7 +134,6 @@ namespace CDX.Graphics
             }
         }
 
-        
         private void unbindAttributes (ShaderProgram shaderProgram) {
             if (cachedLocations.Count == 0) {
                 return;
@@ -159,7 +162,6 @@ namespace CDX.Graphics
             GL.BindVertexArray(0);
             isBound = false;
         }
-
         
         public void invalidate () {
             bufferHandle = GL.GenBuffer();
@@ -187,6 +189,11 @@ namespace CDX.Graphics
                 GL.DeleteVertexArray(vaoHandle);
                 vaoHandle = -1;
             }
+        }
+
+        public float[] getBuffer()
+        {
+            return vertices;
         }
     }
 }

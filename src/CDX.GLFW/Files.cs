@@ -1,57 +1,68 @@
 ﻿using System;
+using System.IO;
 
 namespace CDX.GLFWBackend
 {
+    public class GLFWFileHandle : FileHandle
+    {
+        public GLFWFileHandle(string fileName, FileType type) : base(fileName, type)
+        {
+        }
+    }
+
     public class Files : IFiles
     {
+        public static readonly string externalPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + Path.DirectorySeparatorChar;
+        public static readonly string localPath = Environment.CurrentDirectory + Path.DirectorySeparatorChar;
+        
         public FileHandle getFileHandle(string path, FileType type)
         {
-            throw new NotImplementedException();
+            return new GLFWFileHandle(path, type);
         }
 
         public FileHandle classpath(string path)
         {
-            throw new NotImplementedException();
+            return new GLFWFileHandle(path, FileType.Classpath);
         }
 
         public FileHandle @internal(string path)
         {
-            throw new NotImplementedException();
+            return new GLFWFileHandle(path, FileType.Internal);
         }
 
         public FileHandle external(string path)
         {
-            throw new NotImplementedException();
+            return new GLFWFileHandle(path, FileType.External);
         }
 
         public FileHandle absolute(string path)
         {
-            throw new NotImplementedException();
+            return new GLFWFileHandle(path, FileType.Absolute);
         }
 
         public FileHandle local(string path)
         {
-            throw new NotImplementedException();
+            return new GLFWFileHandle(path, FileType.Local);
         }
 
         public string getExternalStoragePath()
         {
-            throw new NotImplementedException();
+            return externalPath;
         }
 
         public bool isExternalStorageAvailable()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public string getLocalStoragePath()
         {
-            throw new NotImplementedException();
+            return localPath;
         }
 
         public bool isLocalStorageAvailable()
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

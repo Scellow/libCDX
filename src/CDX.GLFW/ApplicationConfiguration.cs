@@ -1,4 +1,6 @@
-﻿namespace CDX.GLFWBackend
+﻿using GLFWMonitor = GLFW.GLFW.Monitor;
+
+namespace CDX.GLFWBackend
 {
     public enum HdpiMode
     {
@@ -183,7 +185,7 @@
             return monitors;
         }
 
-        internal static Lwjgl3Monitor toLwjgl3Monitor(global::GLFW.GLFW.Monitor glfwMonitor)
+        internal static Lwjgl3Monitor toLwjgl3Monitor(GLFWMonitor glfwMonitor)
         {
             GLFW.GLFW.GetMonitorPos(glfwMonitor, out var virtualX, out var virtualY);
             //string name     = GLFW.GetMonitorName(glfwMonitor);

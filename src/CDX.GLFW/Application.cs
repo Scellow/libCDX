@@ -7,6 +7,9 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
+using ErrorCode = GLFW.GLFW.ErrorCode;
+using GLFWWindow = GLFW.GLFW.Window;
+
 namespace CDX.GLFWBackend
 {
     public class Application : IApplication
@@ -19,7 +22,7 @@ namespace CDX.GLFWBackend
         private readonly INet                             net;
         private readonly Dictionary<string, IPreferences> preferences = new Dictionary<string, IPreferences>();
         private readonly Clipboard                  clipboard;
-        private          int                              logLevel = (int) LogLevel.LOG_INFO;
+        private          int                              logLevel = (int) LogLevel.LOG_DEBUG;
         private          IApplicationLogger               applicationLogger;
         private          bool                             running            = true;
         private readonly List<Runnable>                   runnables          = new List<Runnable>();
@@ -40,7 +43,7 @@ namespace CDX.GLFWBackend
             }
         }
 
-        private static void onGlfwError(global::GLFW.GLFW.ErrorCode errorCode, string description)
+        private static void onGlfwError(ErrorCode errorCode, string description)
         {
             Gdx.app.error("GLFW", $"Error: {errorCode} {description}");
         }
@@ -83,7 +86,7 @@ namespace CDX.GLFWBackend
             cleanup();
         }
 
-        private Window createWindow(ApplicationConfiguration config, IApplicationListener listener, global::GLFW.GLFW.Window? sharedContext = null)
+        private Window createWindow(ApplicationConfiguration config, IApplicationListener listener, GLFWWindow? sharedContext = null)
         {
             var window = new Window(listener, config);
             if (sharedContext == null)
@@ -104,7 +107,7 @@ namespace CDX.GLFWBackend
             return window;
         }
 
-        private void createWindow(Window window, ApplicationConfiguration config, global::GLFW.GLFW.Window? sharedContext)
+        private void createWindow(Window window, ApplicationConfiguration config, GLFWWindow? sharedContext)
         {
             var windowHandle = createGlfwWindow(config, sharedContext);
             window.create(windowHandle);
@@ -119,7 +122,7 @@ namespace CDX.GLFWBackend
             }
         }
 
-        static global::GLFW.GLFW.Window createGlfwWindow(ApplicationConfiguration config, global::GLFW.GLFW.Window? sharedContextWindow)
+        static GLFWWindow createGlfwWindow(ApplicationConfiguration config, GLFWWindow? sharedContextWindow)
         {
             GLFW.GLFW.DefaultWindowHints();
             GLFW.GLFW.WindowHint(GLFW.GLFW.Hint.Visible, false);
@@ -147,7 +150,7 @@ namespace CDX.GLFWBackend
                 GLFW.GLFW.WindowHint(GLFW.GLFW.Hint.OpenglDebugContext, true);
             }
 
-            var windowHandle = default(global::GLFW.GLFW.Window);
+            var windowHandle = default(GLFWWindow);
 
             if (config.fullscreenMode != null)
             {
@@ -160,7 +163,7 @@ namespace CDX.GLFWBackend
                 windowHandle = GLFW.GLFW.CreateWindow(config.windowWidth, config.windowHeight, config.title, null, null);
             }
 
-            if (windowHandle == default(global::GLFW.GLFW.Window))
+            if (windowHandle == default(GLFWWindow))
             {
                 throw new Exception("Couldn't create window");
             }

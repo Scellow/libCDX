@@ -1,3 +1,4 @@
+using System;
 using CDX.Utils;
 using OpenTK.Graphics.OpenGL4;
 
@@ -33,6 +34,20 @@ namespace CDX.Graphics
         }
 
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is VertexAttribute)) {
+                return false;
+            }
+            return equals((VertexAttribute)obj);
+        }
+        
+        public bool equals (VertexAttribute other) {
+            return other != null && usage == other.usage && numComponents == other.numComponents 
+                   && type == other.type && normalized == other.normalized && alias == other.alias
+                   && unit == other.unit;
+        }
+
         public int getSizeInBytes()
         {
             switch (type)
@@ -50,5 +65,11 @@ namespace CDX.Graphics
 
             return 0;
         }
+        
+        public int getKey () {
+            return (usageIndex << 8) + (unit & 0xFF);
+        }
+        
+        
     }
 }

@@ -50,5 +50,20 @@ namespace CDX.Graphics
         public int size () {
             return attributes.Length;
         }
+       
+        public long getMask () {
+            if (mask == -1) {
+                long result = 0;
+                for (int i = 0; i < attributes.Length; i++) {
+                    result |= attributes[i].usage;
+                }
+                mask = result;
+            }
+            return mask;
+        }
+        
+        public long getMaskWithSizePacked () {
+            return getMask() | ((long)attributes.Length << 32);
+        }
     }
 }

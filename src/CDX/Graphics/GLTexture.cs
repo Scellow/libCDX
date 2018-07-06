@@ -68,7 +68,7 @@ namespace CDX.Graphics
     }
     
     
-    public abstract class GLTexture
+    public abstract class GLTexture : IDisposable
     {
         public readonly TextureTarget           glTarget;
         protected       int           glHandle;
@@ -200,7 +200,7 @@ namespace CDX.Graphics
             }
         }
 
-        public void dispose()
+        public virtual void Dispose()
         {
             delete();
         }

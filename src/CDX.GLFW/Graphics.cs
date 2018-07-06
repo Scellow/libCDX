@@ -4,18 +4,21 @@ using CDX.Graphics.GLUtils;
 using CDX.Utils;
 using OpenTK.Graphics.OpenGL4;
 
+using GLFWWindow = GLFW.GLFW.Window;
+using GLFWMonitor = GLFW.GLFW.Monitor;
+
 namespace CDX.GLFWBackend
 {
     public class DisplayMode : CDX.DisplayMode
     {
-        readonly global::GLFW.GLFW.Monitor monitorHandle;
+        readonly GLFWMonitor monitorHandle;
 
-        internal DisplayMode(global::GLFW.GLFW.Monitor monitor, int width, int height, int refreshRate, int bitsPerPixel) : base(width, height, refreshRate, bitsPerPixel)
+        internal DisplayMode(GLFWMonitor monitor, int width, int height, int refreshRate, int bitsPerPixel) : base(width, height, refreshRate, bitsPerPixel)
         {
             monitorHandle = monitor;
         }
 
-        public global::GLFW.GLFW.Monitor getMonitor()
+        public GLFWMonitor getMonitor()
         {
             return monitorHandle;
         }
@@ -23,14 +26,14 @@ namespace CDX.GLFWBackend
 
     public class Lwjgl3Monitor : Monitor
     {
-        readonly global::GLFW.GLFW.Monitor monitorHandle;
+        readonly GLFWMonitor monitorHandle;
 
-        internal Lwjgl3Monitor(global::GLFW.GLFW.Monitor monitor, int virtualX, int virtualY, string name) : base(virtualX, virtualY, name)
+        internal Lwjgl3Monitor(GLFWMonitor monitor, int virtualX, int virtualY, string name) : base(virtualX, virtualY, name)
         {
             monitorHandle = monitor;
         }
 
-        public global::GLFW.GLFW.Monitor getMonitorHandle()
+        public GLFWMonitor getMonitorHandle()
         {
             return monitorHandle;
         }
@@ -69,7 +72,7 @@ namespace CDX.GLFWBackend
             GLFW.GLFW.SetFramebufferSizeCallback(window.getWindowHandle(), _refizeFunc);
         }
 
-        private void resizeCallback(global::GLFW.GLFW.Window window1, int width, int height)
+        private void resizeCallback(GLFWWindow window1, int width, int height)
         {
             updateFramebufferInfo();
             if (!window.isListenerInitialized())
@@ -378,7 +381,7 @@ namespace CDX.GLFWBackend
                 }
 
                 // TODO: might not work, should be a nullptr
-                GLFW.GLFW.SetWindowMonitor(window.getWindowHandle(), default(global::GLFW.GLFW.Monitor),
+                GLFW.GLFW.SetWindowMonitor(window.getWindowHandle(), default(GLFWMonitor),
                     windowPosXBeforeFullscreen, windowPosYBeforeFullscreen, width, height,
                     displayModeBeforeFullscreen.refreshRate);
             }
@@ -458,7 +461,7 @@ namespace CDX.GLFWBackend
         public bool isFullscreen()
         {
             // TODO: won't work because we don't set fullscreen corectly..
-            return GLFW.GLFW.GetWindowMonitor(window.getWindowHandle()) != default(global::GLFW.GLFW.Monitor);
+            return GLFW.GLFW.GetWindowMonitor(window.getWindowHandle()) != default(GLFWMonitor);
         }
 
 
