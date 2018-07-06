@@ -6,9 +6,8 @@ libGDX port to C# using .NET Core
 
 - Audio
 - Net
-- 3D
 - Scene2D
-- Controllers
+- Controller Support
 
 # Demo
 
@@ -20,9 +19,6 @@ libGDX port to C# using .NET Core
 
         public override void create()
         {
-            Gdx.app.log("Game", "Create");
-            Gdx.input.setInputProcessor(new InputController());
-
             _batch = new SpriteBatch();
             _texture = Texture.loadFromFile("badlogic.jpg");
         }
